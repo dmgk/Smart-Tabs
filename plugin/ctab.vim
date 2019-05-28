@@ -81,7 +81,7 @@ endif
 
 if !exists('g:ctab_disable_tab_maps') || ! g:ctab_disable_tab_maps
   exe  'imap '.s:buff_map.'<silent> <expr> <tab> <SID>InsertSmartTab()'
-  exe  'inoremap '.s:buff_map.'<silent> <expr> <BS> <SID>DoSmartDelete()."\<BS>"'
+  " exe  'inoremap '.s:buff_map.'<silent> <expr> <BS> <SID>DoSmartDelete()."\<BS>"'
 endif
 
 "exe 'imap '.s:buff_map.'<silent> <expr> <BS> <SID>KeepDelLine()."\<BS>"
@@ -103,6 +103,9 @@ endif
 
 " Insert a smart tab.
 fun! s:InsertSmartTab()
+  if (&filetype !~ '^\(c\|cpp\)$')
+    return "\<Tab>"
+  endif
   " Clear the status
   echo ''
   if strpart(getline('.'),0,col('.')-1) =~'^\s*$'
@@ -136,6 +139,9 @@ aug END
 " The <BS> is included at the end so that deleting back over line ends
 " works as expected.
 fun! s:DoSmartDelete()
+  if (&filetype !~ '^\(c\|cpp\)$')
+    return "\<BS>"
+  endif
   " Clear the status
   "echo ''
   let uptohere=strpart(getline('.'),0,col('.')-1)
