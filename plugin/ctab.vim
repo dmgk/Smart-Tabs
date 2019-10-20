@@ -213,7 +213,7 @@ fun! CTabAlignTo(n)
   return spc
 endfun
 
-if ! exists('g:ctab_disable_checkalign') || g:ctab_disable_checkalign==0
+if &filetype =~ '^\(c\|cpp\)$' && (!exists('g:ctab_disable_checkalign') || g:ctab_disable_checkalign == 0)
   " Check the alignment of line.
   " Used in the case where some alignment whitespace is required .. like for unmatched brackets.
   fun! s:CheckAlign(line)
